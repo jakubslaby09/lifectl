@@ -1,9 +1,30 @@
-<header title="Upravit rutinu"></header>
-<div x-data="{
-    name: $store.openedIntent ?? null,
-    intent: $store.intents[$store.openedIntent]
-}" style="display: flex; flex-direction: column;">
-    <section style="
+<header title="Upravit rutinu">
+    
+</header>
+<div
+    x-data="{
+        name: $store.openedIntent ?? null,
+        intent: $store.intents[$store.openedIntent]
+    }"
+    id="routine-fields"
+>
+    <h2 style="padding-top: 0;">
+        <input type="text" value="Lorem ipsum" placeholder="Přidat název rutiny">
+    </h2>
+
+    <section icon="notes">
+        <input type="text" placeholder="Popis...">
+    </section>
+
+    <section icon="pending_actions">
+        <h4 style="margin-top: 0.8rem;">Úkoly a Aktivity</h4>
+        <p>Na každý řádek zadejte název úlohy, nebo aktivity</p>
+
+        <textarea media id="tasks"></textarea>
+    </section>
+    
+
+    <!-- <section style="
         height: 30vh;
         display: flex;
         flex-direction: column;
@@ -23,28 +44,62 @@
     </section>
     <section>
         <p x-text="JSON.stringify(intent)"></p>
-        <!-- <input type="text" x-model="name" x-effect="intent = intents[name] ?? null"> -->
         <textarea id="tasks" x-model="intent.tasks"></textarea>
-    </section>
+    </section> -->
 </div>
 
+
+
+<button fab large style="
+        color: var(--on-primary);
+        background-color: var(--primary);"
+>save_as</button>
+
 <style>
-    #tasks {
-        display: block;
-        width: calc(100% - 3rem);
-        height: 20ch;
-
-        margin: 1rem 0.5rem;
-        border: none;
-        outline: none;
-
-        background-color: var(--surface);
-        background-image: linear-gradient(var(--background) 0.25rem, var(--surface) 0.25rem);
-        background-size: 100% 2ch;
+    #routine-fields {
+        display: flex;
+        flex-direction: column;
         color: var(--on-surface);
-        border-radius: var(--border-radius);
+    }
+    #routine-fields input[type="text"] {
+        width: 100%;
+        height: 3rem;
+        border: none;
+        background: none;
+        color: inherit;
+        font-size: inherit;
+        font-family: inherit;
+        font-weight: inherit;
+    }
+    #routine-fields > * {
+        display: block;
+        margin: 0;
+        min-height: 3rem;
+        padding: 1rem 0 1rem 4rem;
+        border-bottom: solid 0.1rem var(--surface-variant);
+    }
+    #routine-fields > [icon]::before {
+        content: attr(icon);
+        position: absolute;
+        left: 1.5rem;
+        margin-top: 0.5rem;
+        font-family: 'Material Icons';
+        font-size: 2rem;
+    }
 
-        font-size: 1.5em;
-        line-height: 2ch;
+    #tasks {
+        width: calc(100% - 1rem);
+        height: 10rem;
+        border: var(--outline);
+        border-radius: var(--border-radius);
+        padding: 0.5rem;
+        color: var(--on-surface);
+        background-color: var(--surface);
+        background-size: 100% 2ch;
+        font-family: 'Fira Code';
+        font-size: 1.3em;
+        line-height: 2.3ch;
+        resize: vertical;
+        overflow: visible;
     }
 </style>
