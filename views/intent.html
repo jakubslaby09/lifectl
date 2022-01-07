@@ -1,0 +1,64 @@
+<header :title="$store.openedIntent"></header>
+
+<section x-data="{
+        name: $store.openedIntent ?? null,
+        intent: $store.intents[$store.openedIntent],
+        taskId: 0,
+        taskStart: new Date().getTime() / 1000,
+        get taskName() { return this.intent.tasks[this.taskId] ?? 'hotovo' },
+        get activity() { return $store.activities[this.taskName] ?? null },
+        get time() { return this.activity?.timeleft ?? new Date().getTime() / 1000 - this.taskStart }
+    }"
+    id="intent"
+    x-init="activity?.start()"
+>
+
+    <h1 x-text="taskName"></h1>
+
+    <h2
+        x-ref="counter"
+        x-init="setInterval(() => 
+            $refs.counter ? $refs.counter.innerText = (time.toFixed(2) ?? 0) + 's' : null
+        , 0)"
+    ></h2>
+    
+    <footer>
+        <button icon
+            x-on:click="activity?.cancel(); taskId++; activity ? activity.start() : taskStart = new Date().getTime() / 1000">
+            cancel
+        </button>
+        <button fab large class="next"
+            x-on:click="activity?.finish(); taskId++; activity ? activity.start() : taskStart = new Date().getTime() / 1000">
+            add_task
+        </button>
+        <button icon>
+            low_priority
+        </button>
+    </footer>
+</section>
+
+<style>
+    #intent {
+        display: flex;
+        height: 100%;
+        margin: -1rem;
+        flex-direction: column;
+        text-align: center;
+        justify-content: space-around;
+        overflow: hidden;
+    }
+    #intent footer {
+        display: flex;
+        justify-content: space-evenly;
+        padding: 1rem 0;
+        border-radius: var(--border-radius);
+        align-items: center;
+        /* background: var(--surface); */
+    }
+    #intent footer button.next {
+        border-radius: 50%;
+        background-color: var(--primary);
+        color: var(--on-primary);
+        font-size: 1.5rem;
+    }
+</style>

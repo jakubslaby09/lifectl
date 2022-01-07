@@ -1,0 +1,96 @@
+<h1>Rutiny</h1>
+
+<section x-data="{ intents: $store.intents }">
+    <template x-for="(intent, name) in intents">
+        <card
+            outlined
+            ripple
+            view="intent"
+            class="intent"
+            x-on:click="Alpine.store('openedIntent', name)"
+        >
+            <h2 x-text="name"></h2>
+            <!-- <img src="https://lh3.googleusercontent.com/-Hwl8y2-8eHdCttlaY7KUV3VNtH_FeDi9T21ALNCJqZs-p2HYqxyqyxdWQZwOQJ2UAK3NVRAf8rh7YjHykGFDhfuBB6t-lPMEY8pmzEvIcVXaL3FWiSe=w1200-rj"> -->
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae maxime eligendi eaque, repellendus perferendis reiciendis magnam repudiandae illo! Odit, natus!</p>
+            <!-- <button filled>Začít</button>
+            <button>Odložit</button> -->
+        </card>
+    </template>
+</section>
+
+<h1>Aktivity</h1>
+
+<section x-data="{ activities: $store.activities }">
+    <template x-for="(activity, name) in activities">
+        <card outlined ripple class="activity">
+            <h2 x-text="name"></h2>
+            <p x-text="JSON.stringify(self.intent ?? undefined)"></p>
+            <div class="stats" x-show="activity.records.length">
+                <code x-text="activity.stats.done"></code>x
+                splněno,
+                
+                <code x-text="(activity.stats.rate * 100).toFixed()"></code>%
+                úspěšnost
+            </div>
+            <p class="stats" x-show="!activity.records.length">Zatím žádné záznamy</p>
+            <div media class="calendar">
+                <template x-for="record in [
+                    ...activity.records,
+                    ...new Array(activity.missing)
+                ].slice(-100)">
+                    <div :done="!!record" :finished="!!record?.finish"></div>
+                </template>
+            </div>
+            <!-- <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae maxime eligendi eaque, repellendus perferendis reiciendis magnam repudiandae illo! Odit, natus!</p> -->
+        </card>
+    </template>
+</section>
+
+<style>
+    .intent, .activity {
+        padding-top: 0;
+    }
+    .intent h2 {
+        color: var(--on-primary-container);
+    }
+
+    .stats {
+        font-weight: 600;
+        font-family: 'Fira Code';
+    }
+    .stats code {
+        font-family: inherit;
+    }
+
+    .calendar {
+        display: flex;
+        min-height: 2rem;
+        max-height: 5rem;
+        gap: 0.25rem;
+        flex-wrap: wrap-reverse;
+        align-content: flex-end;
+        overflow-y: hidden;
+    }
+    .calendar > * {
+        background: var(--surface-variant);
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+    }
+    .calendar > [done][finished] {
+        background: var(--primary);
+        opacity: unset;
+    }
+    .calendar > [done]:not([finished]) {
+        filter: brightness(2);
+    }
+    .calendar > :last-of-type {
+        outline: var(--outline);
+        outline-width: 0.25rem;
+        outline-offset: -0.25rem;
+    }
+    .calendar > [done][finished]:last-of-type {
+        background-color: var(--primary-container);
+        outline-color: var(--primary);
+    }
+</style>
