@@ -8,6 +8,7 @@
             view="intent"
             class="intent"
             x-on:click="Alpine.store('openedIntent', name)"
+            x-on:contextmenu.prevent="$store.openedIntent = name; stack.push('intent-edit')"
         >
             <h2 x-text="name"></h2>
             <!-- <img src="https://lh3.googleusercontent.com/-Hwl8y2-8eHdCttlaY7KUV3VNtH_FeDi9T21ALNCJqZs-p2HYqxyqyxdWQZwOQJ2UAK3NVRAf8rh7YjHykGFDhfuBB6t-lPMEY8pmzEvIcVXaL3FWiSe=w1200-rj"> -->
