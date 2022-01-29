@@ -106,12 +106,8 @@ dialog {
             padding: 1rem 1.5rem;
             border-radius: 0;
             color: var(--on-surface);
-            background-color: transparent;
             font-size: unset;
-            box-shadow: none;
             text-align: unset;
-            letter-spacing: unset;
-            text-transform: none;
         }
     }
 

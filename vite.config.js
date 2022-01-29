@@ -1,10 +1,13 @@
 import { readdirSync } from 'fs'
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
+import mkcert from "vite-plugin-mkcert";
 
 export default defineConfig({
   server: {
       host: true,
+      port: 3500,
+      https: true
   },
   publicDir: './public',
   build: {
@@ -22,4 +25,5 @@ export default defineConfig({
     assetsDir: 'bundle',
     assetsInlineLimit: 0,
   },
+  plugins: [mkcert()]
 })

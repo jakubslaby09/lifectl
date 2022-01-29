@@ -1,6 +1,6 @@
 if(navigator.serviceWorker) {
-    /* const worker =  */location.port != '3000'
-    ? navigator.serviceWorker.register(new URL('/sw.js', import.meta.url).href)
+/* const worker =  */location.host != 'localhost:3500'
+    ? navigator.serviceWorker?.register(new URL('/sw.js', import.meta.url).href)
     : null
     
     navigator.serviceWorker.onmessage = e => {

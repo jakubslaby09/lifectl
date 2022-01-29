@@ -1,0 +1,85 @@
+input[type="text"][outlined],
+input[type="password"][outlined],
+input[type="number"],
+textfield {
+    display: block;
+    height: 1.4rem;
+    margin: 1rem 0.5rem 1rem 0;
+    border: none;
+    border-radius: var(--border-radius);
+    outline: var(--outline);
+    padding: 1rem;
+    color: var(--on-surface);
+    caret-color: var(--primary);
+    background: none;
+    font-size: inherit;
+    font-family: inherit;
+
+    &:focus {
+        outline: solid var(--primary) 0.125rem;
+    }
+    
+}
+
+textfield {
+    color: transparent;
+    white-space: nowrap;
+    overflow-x: hidden;
+    cursor: text;
+    
+    &:focus, &:not([empty]) {
+        color: var(--on-surface);
+        /* clip-path: polygon(1.5rem 30%, 50% 30%, 50% -0.15rem, 110% -0.15rem, 110% 110%, -0.15rem 110%, -0.15rem -0.15rem, 1.5rem -0.15rem); */
+        
+        &::after {
+            transform: translate(-1rem, -1.2rem) scale(0.75);
+            height: 0.25rem;
+            padding: 0 0.25rem;
+            color: var(--on-surface);
+            line-height: 0.4;
+            opacity: unset;
+        }
+    }
+    
+    &::after {
+        content: attr(title);
+        transition: transform cubic-bezier(0.5, 0, 0, 1) 0.2s;
+        position: absolute;
+        height: 0;
+        margin-top: 0;
+        left: 2rem;
+        color: var(--on-surface);
+        background-color: var(--surface);
+        opacity: 0.85;
+    }
+
+    &:focus::after {
+        color: var(--primary);
+    }
+
+    &[icon] {
+        margin-left: 3rem;
+
+        &::before {
+            content: attr(icon);
+            position: absolute;
+            left: 1.25rem;
+            color: var(--on-surface);
+            opacity: 0.8;
+            font-size: 1.5rem;
+            font-family: 'Material Icons Outlined';
+        }
+
+        &::after {
+            left: 5rem;
+        }
+    }
+    
+    * {
+        display: inline;
+    }
+
+    br {
+        display: none;
+    }
+}
