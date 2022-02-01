@@ -1,34 +1,51 @@
 <header :title="$store.openedIntent"></header>
 
-<section x-data="{
+<section
+    x-data="{
         name: $store.openedIntent ?? null,
-        intent: $store.intents[$store.openedIntent],
-        taskId: 0,
-        taskStart: new Date().getTime() / 1000,
-        get taskName() { return this.intent.tasks[this.taskId] ?? 'hotovo' },
-        get activity() { return $store.activities[this.taskName] ?? null },
-        get time() { return this.activity?.timeleft ?? new Date().getTime() / 1000 - this.taskStart }
+        taskId: -1,
+        taskStart: null,
+        
+        get task() {
+            return routines[this.name].tasks[this.taskId] ?? null
+        },
+        get activity () {
+            return activities.get(this.task) ?? null
+        },
+        get time() {
+            const time = new Date().valueOf() - this.taskStart
+            const limit = this.activity?.time * 1000
+            return (limit ? limit - time : time) / 1000
+        },
+
+        next() {
+            this.taskId++;
+            this.activity ? activities.start(this.task) : this.taskStart = new Date().valueOf()
+        },
     }"
-    id="intent"
-    x-init="activity?.start()"
+    id="routine"
+    x-init="next()"
 >
 
-    <h1 x-text="taskName"></h1>
+    <h1 x-text="task"></h1>
 
     <h2
         x-ref="counter"
+        x-show="!!task"
         x-init="setInterval(() => 
-            $refs.counter ? $refs.counter.innerText = (time.toFixed(2) ?? 0) + 's' : null
+            $refs.counter ? $refs.counter.innerText = (time?.toFixed(2) ?? 0) + 's' : null
         , 0)"
     ></h2>
+    <h1 x-show="!task">Hotovo</h1>
+
     
     <footer>
         <button icon
-            x-on:click="activity?.cancel(); taskId++; activity ? activity.start() : taskStart = new Date().getTime() / 1000">
+            x-on:click="next()">
             cancel
         </button>
         <button fab large class="next"
-            x-on:click="activity?.finish(); taskId++; activity ? activity.start() : taskStart = new Date().getTime() / 1000">
+            x-on:click="activities.finish(task); next()">
             add_task
         </button>
         <button icon>
@@ -38,7 +55,7 @@
 </section>
 
 <style>
-    #intent {
+    #routine {
         display: flex;
         height: 100%;
         margin: -1rem;
@@ -47,7 +64,7 @@
         justify-content: space-around;
         overflow: hidden;
     }
-    #intent footer {
+    #routine footer {
         display: flex;
         justify-content: space-evenly;
         padding: 1rem 0;
@@ -55,7 +72,7 @@
         align-items: center;
         /* background: var(--surface); */
     }
-    #intent footer button.next {
+    #routine footer button.next {
         border-radius: 50%;
         background-color: var(--primary);
         color: var(--on-primary);

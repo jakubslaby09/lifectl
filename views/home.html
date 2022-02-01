@@ -1,7 +1,7 @@
 <h1>Rutiny</h1>
 
-<section x-data="{ intents: $store.intents }">
-    <template x-for="(intent, name) in intents">
+<section x-data="{  }">
+    <template x-for="(intent, name) in routines">
         <card
             outlined
             ripple
@@ -21,28 +21,31 @@
 
 <h1>Aktivity</h1>
 
-<section x-data="{ activities: $store.activities }">
-    <template x-for="(activity, name) in activities">
+<section x-data="{  }">
+    <template x-for="(activity, name) in activities.all">
         <card outlined ripple class="activity">
             <h2 x-text="name"></h2>
-            <p x-text="JSON.stringify(self.intent ?? undefined)"></p>
-            <div class="stats" x-show="activity.records.length">
+            <!-- <p x-text="JSON.stringify(self.intent ?? undefined)"></p> -->
+
+            <!-- <div class="stats" x-show="activity.records.length">
                 <code x-text="activity.stats.done"></code>x
                 splněno,
                 
                 <code x-text="(activity.stats.rate * 100).toFixed()"></code>%
                 úspěšnost
-            </div>
+            </div> -->
+
             <p class="stats" x-show="!activity.records.length">Zatím žádné záznamy</p>
             <div media class="calendar">
                 <template x-for="record in [
-                    ...activity.records,
-                    ...new Array(activity.missing)
+                    ...activity.records, ...new Array(activities.lastAbsence(name))
                 ].slice(-100)">
-                    <div :done="!!record" :finished="!!record?.finish"></div>
+                    <div
+                        :done="!!record"
+                        :style="`--progress: ${record?.filter(r => r.finish).length ?? 0}`"
+                    ></div>
                 </template>
             </div>
-            <!-- <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae maxime eligendi eaque, repellendus perferendis reiciendis magnam repudiandae illo! Odit, natus!</p> -->
         </card>
     </template>
 </section>
@@ -80,12 +83,9 @@
         height: 1rem;
         border-radius: 50%;
     }
-    .calendar > [done][finished] {
-        background: var(--primary);
-        opacity: unset;
-    }
-    .calendar > [done]:not([finished]) {
-        filter: brightness(2);
+    .calendar > [done] {
+        /* filter: brightness(2); */
+        background-color: var(--primary);
     }
     .calendar > :last-of-type {
         outline: var(--outline);
