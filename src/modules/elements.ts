@@ -115,6 +115,7 @@ document.querySelectorAll('body *').forEach(node => initnode(node))
 
 function initnode(element: Element) {
     modifications.forEach(m => {
+        if(element.nodeName == '#comment') return
         if(m.if(element)) m.then(element)
     })
 
