@@ -1,58 +1,39 @@
-<header title="Upravit rutinu">
-    
-</header>
+<header :title="$store.openedIntent ? 'Upravit rutinu' : 'Nová rutina'"></header>
 <div
-    x-data="{
-        name: $store.openedIntent ?? null,
-        intent: $store.intents[$store.openedIntent]
-    }"
+    x-init="$store.routine = {}"
     id="routine-fields"
 >
     <h2 style="padding-top: 0;">
-        <input type="text" :value="name" placeholder="Přidat název rutiny">
+        <input x-model="$store.routine.name" type="text" placeholder="Přidat název rutiny">
     </h2>
 
     <section icon="notes">
-        <input type="text" placeholder="Popis...">
+        <input x-model="$store.routine.description" type="text" placeholder="Popis...">
     </section>
 
     <section icon="pending_actions">
         <h4 style="margin-top: 0.8rem;">Úkoly a Aktivity</h4>
         <p>Na každý řádek zadejte název úlohy, nebo aktivity</p>
 
-        <textarea media id="tasks"></textarea>
+        <textarea x-model="$store.routine.tasks" media id="tasks"></textarea>
     </section>
-    
-
-    <!-- <section style="
-        height: 30vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    ">
-        <h1 x-text="name"></h1>
-        <button icon x-on:click="intent.history.push(new Date())">more_time</button>
-    </section>
-    <section>
-        <h2>Historie</h2>
-        <ul>
-            <template x-for="date in intent.history">
-                <li x-text="date"></li>
-            </template>
-        </ul>
-    </section>
-    <section>
-        <p x-text="JSON.stringify(intent)"></p>
-        <textarea id="tasks" x-model="intent.tasks"></textarea>
-    </section> -->
 </div>
 
 
 
-<button fab large style="
+<button
+    fab
+    large
+    style="
         color: var(--on-primary);
         background-color: var(--primary);"
+    x-on:click="console.log($store.routine); localStorage.setItem(
+        'routines',
+        JSON.stringify({ ...window.routines, [$store.routine.name]: {
+            ...$store.routine,
+            tasks: $store.routine.tasks.split('\n')
+        } })
+    )"
 >save_as</button>
 
 <style>
@@ -61,7 +42,8 @@
         flex-direction: column;
         color: var(--on-surface);
     }
-    #routine-fields input[type="text"] {
+    #routine-fields input[type="text"],
+    #routine-fields input[type="number"] {
         width: 100%;
         height: 3rem;
         border: none;
