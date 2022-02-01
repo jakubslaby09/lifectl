@@ -6,6 +6,6 @@ import './modules/router'
 import * as sounds from './modules/sound'
 
 import './modules/routines'
-import './modules/tasks'
+import './modules/activities'
 
 (window as any).sounds = sounds
