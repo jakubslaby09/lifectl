@@ -4,6 +4,7 @@ const root = location.origin
         + (document.querySelector('head > link[rel="root"]')?.getAttribute('href') ?? '/')
 fixFetch()
 
+
 //self.caches?.delete('views') // delete on refresh
 
 const elements = {
@@ -31,7 +32,7 @@ const stack = {
     get values() {
         return [
             this._bottom,
-            ...location.pathname.split('/').filter(n => n != '')
+            ...location.href.replace(root, '').split('/').filter(n => n != '')
         ]
     },
 
