@@ -24,7 +24,7 @@
         icon
         :rotate="rotate"
         x-text="rotate ? 'sync_problem' : 'sync'"
-        x-on:click="rotate = !rotate"
+        @click="rotate = !rotate"
     ></button>
     
 </section>
@@ -84,7 +84,7 @@
     <h4>Výchozí elementy</h4>
     <input outlined type="text" placeholder="Default text input">
     <input outlined type="password" placeholder="Password input">
-    <input type="number" placeholder="Number input">
+    <input outlined type="number" placeholder="Number input">
     
     <h4>Vlastní elementy</h4>
     <textfield title="Text field">Lorem, ipsum dolor.</textfield>
