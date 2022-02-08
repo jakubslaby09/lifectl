@@ -1,14 +1,14 @@
 <h1>Rutiny</h1>
 
 <section x-data="{  }">
-    <template x-for="(intent, name) in routines">
+    <template x-for="(routine, name) in routines">
         <card
             outlined
             ripple
-            view="intent"
-            class="intent"
-            x-on:click="Alpine.store('openedIntent', name)"
-            x-on:contextmenu.prevent="$store.openedIntent = name; stack.push('intent-edit')"
+            view="routine"
+            class="routine"
+            x-on:click="Alpine.store('openedRoutine', name)"
+            x-on:contextmenu.prevent="$store.openedRoutine = name; stack.push('routine-edit')"
         >
             <h2 x-text="name"></h2>
             <!-- <img src="https://lh3.googleusercontent.com/-Hwl8y2-8eHdCttlaY7KUV3VNtH_FeDi9T21ALNCJqZs-p2HYqxyqyxdWQZwOQJ2UAK3NVRAf8rh7YjHykGFDhfuBB6t-lPMEY8pmzEvIcVXaL3FWiSe=w1200-rj"> -->
@@ -25,7 +25,7 @@
     <template x-for="(activity, name) in activities.all">
         <card outlined ripple class="activity">
             <h2 x-text="name"></h2>
-            <!-- <p x-text="JSON.stringify(self.intent ?? undefined)"></p> -->
+            <!-- <p x-text="JSON.stringify(self.routine ?? undefined)"></p> -->
 
             <!-- <div class="stats" x-show="activity.records.length">
                 <code x-text="activity.stats.done"></code>x
@@ -52,13 +52,13 @@
 
 <button fab large>add</button>
 <button fab>task_alt</button>
-<button fab view="intent-edit">checklist</button>
+<button fab view="routine-edit">checklist</button>
 
 <style>
-    .intent, .activity {
+    .routine, .activity {
         padding-top: 0;
     }
-    .intent h2 {
+    .routine h2 {
         color: var(--on-primary-container);
     }
 
