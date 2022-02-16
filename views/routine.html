@@ -1,8 +1,8 @@
-<header :title="$store.openedRoutine"></header>
+<header :title="location.params['routine']"></header>
 
 <section
     x-data="{
-        name: $store.openedRoutine ?? null,
+        name: location.params['routine'] ?? null,
         taskId: -1,
         taskStart: null,
         
@@ -41,11 +41,11 @@
     
     <footer>
         <button icon
-            x-on:click="next()">
+            @click="next()">
             cancel
         </button>
         <button fab large class="next"
-            x-on:click="activities.finish(task); next()">
+            @click="activities.finish(task); next()">
             add_task
         </button>
         <button icon>

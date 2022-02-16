@@ -27,7 +27,7 @@
     style="
         color: var(--on-primary);
         background-color: var(--primary);"
-    x-on:click="console.log($store.routine); localStorage.setItem(
+    @click="console.log($store.routine); localStorage.setItem(
         'routines',
         JSON.stringify({ ...window.routines, [$store.routine.name]: {
             ...$store.routine,

@@ -5,10 +5,9 @@
         <card
             outlined
             ripple
-            view="routine"
+            :view="`routine?${name}`"
             class="routine"
-            x-on:click="Alpine.store('openedRoutine', name)"
-            x-on:contextmenu.prevent="$store.openedRoutine = name; stack.push('routine-edit')"
+            @contextmenu.prevent="$store.openedRoutine = name; stack.push('routine-edit')"
         >
             <h2 x-text="name"></h2>
             <!-- <img src="https://lh3.googleusercontent.com/-Hwl8y2-8eHdCttlaY7KUV3VNtH_FeDi9T21ALNCJqZs-p2HYqxyqyxdWQZwOQJ2UAK3NVRAf8rh7YjHykGFDhfuBB6t-lPMEY8pmzEvIcVXaL3FWiSe=w1200-rj"> -->
@@ -81,15 +80,25 @@
     }
     .calendar > * {
         background: var(--surface-variant);
+        position: relative;
         width: 1rem;
         height: 1rem;
         border-radius: 50%;
+        border-radius: 50%;
     }
-    .calendar > [done] {
-        /* filter: brightness(2); */
+    .calendar > [done]::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
         background-color: var(--primary);
+        opacity: calc(var(--progress) / 5);
     }
-    .calendar > :last-of-type {
+    .calendar > :last-of-type::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
         outline: var(--outline);
         outline-width: 0.25rem;
         outline-offset: -0.25rem;
