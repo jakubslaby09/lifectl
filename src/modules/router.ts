@@ -1,11 +1,40 @@
 import * as sounds from "./sound"
 
-const root = location.origin
-        + (document.querySelector('head > link[rel="root"]')?.getAttribute('href') ?? '/')
 fixFetch()
 
-
 //self.caches?.delete('views') // delete on refresh
+
+
+
+const path = {
+    get root() {
+        let path = new URL(
+            (document.querySelector('head > link[rel="root"]')?.getAttribute('href') ?? '/'),
+            location.href
+        ).pathname
+        if(path.slice(-1) == '/') path = path.slice(0, -1)
+        return path
+    },
+    get pathname(): string { // e.g. /example?123/item?2/details
+        return location.pathname.replace(path.root, '')
+        + location.search
+    },
+}
+
+Object.defineProperty(location, 'params', { get() {
+    let params = { }
+    
+    path.pathname.split('/').forEach(pair => {
+        const page = pair.split('?')[0]
+        const param = pair.split('?')[1]
+        if(param) params = {
+            ...params,
+            [page]: decodeURIComponent(param)
+        }
+    })
+
+    return params
+}})
 
 const elements = {
     get mains() { return document.querySelectorAll('body > main') },
@@ -32,12 +61,15 @@ const stack = {
     get values() {
         return [
             this._bottom,
-            ...location.href.replace(root, '').split('/').filter(n => n != '')
+            ...path.pathname
+                .split('/')
+                .filter(n => n != '')
+                .map(layer => layer.split('?')[0])
         ]
     },
 
     push(view: string) {
-        history.pushState(null, '', `${location.pathname.slice(1)}/${view}`)
+        history.pushState(null, '', `${location.href}/${view}`)
         sounds.navigate(true, true)
         this.apply()
     },
@@ -166,7 +198,10 @@ function fixFetch() {
             return oldFetch(input, init)
         }
         
-        const path = new URL(input.slice(1), root).href
-        return oldFetch(path, init)
+        const url = new URL(
+            input.slice(1),
+            location.origin + path.root + '/'
+        ).href
+        return oldFetch(url, init)
     }
 }
