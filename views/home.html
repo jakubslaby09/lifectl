@@ -103,8 +103,7 @@
         outline-width: 0.25rem;
         outline-offset: -0.25rem;
     }
-    .calendar > [done][finished]:last-of-type {
-        background-color: var(--primary-container);
-        outline-color: var(--primary);
+    .calendar > [done]:last-of-type::after {
+        outline-color: var(--on-primary-container);
     }
 </style>
