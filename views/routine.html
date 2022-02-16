@@ -41,11 +41,11 @@
     
     <footer>
         <button icon
-            x-on:click="next()">
+            @click="next()">
             cancel
         </button>
         <button fab large class="next"
-            x-on:click="activities.finish(task); next()">
+            @click="activities.finish(task); next()">
             add_task
         </button>
         <button icon>
