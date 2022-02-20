@@ -1,87 +1,100 @@
-<header :title="$store.openedRoutine ? 'Upravit rutinu' : 'Nová rutina'"></header>
-<div
-    x-init="$store.routine = {}"
-    id="routine-fields"
->
-    <h2 style="padding-top: 0;">
-        <input x-model="$store.routine.name" type="text" placeholder="Přidat název rutiny">
-    </h2>
+<main x-data="{
+    routine: {
+        ...routines[location.params['routine-edit']],
+        tasks: routines[location.params['routine-edit']].tasks.join('\n')
+    } ?? { },
 
-    <section icon="notes">
-        <input x-model="$store.routine.description" type="text" placeholder="Popis...">
-    </section>
+    save() {
+        localStorage.setItem(
+            'routines',
+            JSON.stringify({
+                ...window.routines,
+                [this.routine.name]: {
+                    ...this.routine,
+                    tasks: this.routine.tasks.split('\n')
+                }
+            })
+        )
+    },
+}">
+    <header :title="location.params['routine-edit'] ? 'Upravit rutinu' : 'Nová rutina'"></header>
+    <div
+        id="routine-fields"
+    >
+        <h2 style="padding-top: 0;">
+            <input x-model="routine.name" type="text" placeholder="Přidat název rutiny">
+        </h2>
 
-    <section icon="pending_actions">
-        <h4 style="margin-top: 0.8rem;">Úkoly a Aktivity</h4>
-        <p>Na každý řádek zadejte název úlohy, nebo aktivity</p>
+        <section icon="notes">
+            <input x-model="routine.description" type="text" placeholder="Popis...">
+        </section>
 
-        <textarea x-model="$store.routine.tasks" media id="tasks"></textarea>
-    </section>
-</div>
+        <section icon="pending_actions">
+            <h4 style="margin-top: 0.8rem;">Úkoly a Aktivity</h4>
+            <p>Na každý řádek zadejte název úlohy, nebo aktivity</p>
+
+            <textarea x-model="routine.tasks" media id="tasks"></textarea>
+        </section>
+    </div>
 
 
 
-<button
-    fab
-    large
-    style="
-        color: var(--on-primary);
-        background-color: var(--primary);"
-    @click="console.log($store.routine); localStorage.setItem(
-        'routines',
-        JSON.stringify({ ...window.routines, [$store.routine.name]: {
-            ...$store.routine,
-            tasks: $store.routine.tasks.split('\n')
-        } })
-    )"
->save_as</button>
+    <button
+        fab
+        large
+        style="
+            color: var(--on-primary);
+            background-color: var(--primary);"
+        @click="console.log(routine); save()"
+    >save_as</button>
 
-<style>
-    #routine-fields {
-        display: flex;
-        flex-direction: column;
-        color: var(--on-surface);
-    }
-    #routine-fields input[type="text"],
-    #routine-fields input[type="number"] {
-        width: 100%;
-        height: 3rem;
-        border: none;
-        background: none;
-        color: inherit;
-        font-size: inherit;
-        font-family: inherit;
-        font-weight: inherit;
-    }
-    #routine-fields > * {
-        display: block;
-        margin: 0;
-        min-height: 3rem;
-        padding: 1rem 0 1rem 4rem;
-        border-bottom: solid 0.1rem var(--surface-variant);
-    }
-    #routine-fields > [icon]::before {
-        content: attr(icon);
-        position: absolute;
-        left: 1.5rem;
-        margin-top: 0.5rem;
-        font-family: 'Material Icons';
-        font-size: 2rem;
-    }
+    <style>
+        #routine-fields {
+            display: flex;
+            flex-direction: column;
+            color: var(--on-surface);
+        }
+        #routine-fields input[type="text"],
+        #routine-fields input[type="number"] {
+            width: 100%;
+            height: 3rem;
+            border: none;
+            background: none;
+            color: inherit;
+            font-size: inherit;
+            font-family: inherit;
+            font-weight: inherit;
+        }
+        #routine-fields > * {
+            display: block;
+            margin: 0;
+            min-height: 3rem;
+            padding: 1rem 0 1rem 4rem;
+            border-bottom: solid 0.1rem var(--surface-variant);
+        }
+        #routine-fields > [icon]::before {
+            content: attr(icon);
+            position: absolute;
+            left: 1.5rem;
+            margin-top: 0.5rem;
+            font-family: 'Material Icons';
+            font-size: 2rem;
+        }
 
-    #tasks {
-        width: calc(100% - 1rem);
-        height: 10rem;
-        border: var(--outline);
-        border-radius: var(--border-radius);
-        padding: 0.5rem;
-        color: var(--on-surface);
-        background-color: var(--surface);
-        background-size: 100% 2ch;
-        font-family: 'Fira Code';
-        font-size: 1.3em;
-        line-height: 2.3ch;
-        resize: vertical;
-        overflow: visible;
-    }
-</style>
+        #tasks {
+            width: calc(100% - 1rem);
+            height: 10rem;
+            border: var(--outline);
+            border-radius: var(--border-radius);
+            padding: 0.5rem;
+            color: var(--on-surface);
+            background-color: var(--surface);
+            background-size: 100% 2ch;
+            font-family: 'Fira Code';
+            font-size: 1.3em;
+            line-height: 2.3ch;
+            resize: vertical;
+            overflow: visible;
+        }
+    </style>
+</main>
