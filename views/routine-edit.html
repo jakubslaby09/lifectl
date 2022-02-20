@@ -1,4 +1,4 @@
-<header :title="$store.openedRoutine ? 'Upravit rutinu' : 'Nová rutina'"></header>
+<header :title="location.params['routine-edit'] ? 'Upravit rutinu' : 'Nová rutina'"></header>
 <div
     x-init="$store.routine = {}"
     id="routine-fields"
