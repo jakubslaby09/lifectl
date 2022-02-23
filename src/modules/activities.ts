@@ -53,6 +53,13 @@ const activities = {
         })
     },
 
+    remove(name: string) {
+        localStorage.setItem('activities', JSON.stringify({
+            ...this.all,
+            [name]: undefined
+        }))
+    },
+
     lastAbsence(name: string) {
         const lastDay = this.get(name).records.length - 1
         return this._today(name) - lastDay > 0
@@ -71,7 +78,8 @@ interface Activity {
     created: number,
     time: number,
     description: string,
-    records: DayRecord[]
+    records: DayRecord[],
+    goal: number
 }
 
 type DayRecord = {
