@@ -1,5 +1,5 @@
 <main x-data="{
-    name: location.params['activity-edit'],
+    name: location.params['activity-edit'] ?? '',
     activity: {
         ...activities.get(
             location.params['activity-edit']
