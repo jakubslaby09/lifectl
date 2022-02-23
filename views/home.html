@@ -22,7 +22,12 @@
 
 <section x-data="{  }">
     <template x-for="(activity, name) in activities.all">
-        <card outlined ripple class="activity">
+        <card
+            outlined
+            ripple
+            class="activity"
+            @contextmenu.prevent="stack.push(`activity-edit?${name}`)"
+        >
             <h2 x-text="name"></h2>
             <!-- <p x-text="JSON.stringify(self.routine ?? undefined)"></p> -->
 
@@ -50,7 +55,7 @@
 </section>
 
 <button fab large>add</button>
-<button fab>task_alt</button>
+<button fab view="activity-edit">task_alt</button>
 <button fab view="routine-edit">checklist</button>
 
 <style>
