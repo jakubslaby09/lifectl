@@ -1,7 +1,7 @@
 <main x-data="{
     routine: {
         ...routines[location.params['routine-edit']],
-        tasks: routines[location.params['routine-edit']].tasks.join('\n')
+        tasks: routines[location.params['routine-edit']]?.tasks.join('\n')
     } ?? { },
 
     save() {
