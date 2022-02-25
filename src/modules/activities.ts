@@ -23,7 +23,7 @@ const activities = {
     },
 
     start(name: string) {
-        const records = this.get(name)!.records
+        const records = this.get(name)?.records; if(!records) return
         records[this._today(name)] = [
             ...records[this._today(name)] ?? [],
             {
