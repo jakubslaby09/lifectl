@@ -42,14 +42,15 @@
     
     <footer>
         <button icon
+            x-show="!!task"
             @click="next()">
             cancel
         </button>
         <button fab large class="next"
-            @click="activities.finish(task); next()">
-            add_task
-        </button>
-        <button icon>
+            @click="activities.finish(task); next()"
+            x-text="task ? 'add_task' : 'done'"
+        ></button>
+        <button icon x-show="!!task">
             low_priority
         </button>
     </footer>
