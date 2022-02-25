@@ -5,7 +5,7 @@ const activities = {
         ) as Activities
     },
 
-    get(name: string) {
+    get(name: string): Activity | undefined {
         return this.all[name]
     },
 
@@ -13,22 +13,17 @@ const activities = {
         localStorage.setItem('activities', JSON.stringify({
             ...this.all,
             [name]: {
-                ...this.get(name),
+                ...this.get(name) ?? {
+                    created: new Date().valueOf(),
+                    records: [],
+                },
                 ...properties,
             }
         }))
     },
 
-    create(name: string, description = '') {
-        this._set(name, {
-            description,
-            created: new Date().valueOf(),
-            records: [],
-        })
-    },
-
     start(name: string) {
-        const records = this.get(name).records
+        const records = this.get(name)!.records
         records[this._today(name)] = [
             ...records[this._today(name)] ?? [],
             {
@@ -61,14 +56,14 @@ const activities = {
     },
 
     lastAbsence(name: string) {
-        const lastDay = this.get(name).records.length - 1
+        const lastDay = this.get(name)!.records.length - 1
         return this._today(name) - lastDay > 0
             ? this._today(name) - lastDay : 0
     },
 
     _today(name: string) {
         return Math.floor(
-            (new Date().valueOf() - this.get(name).created) / 86400000 /* seconds in a day */
+            (new Date().valueOf() - this.get(name)!.created) / 86400000 /* seconds in a day */
         )
     },
 };
