@@ -20,7 +20,8 @@
 
         next() {
             this.taskId++;
-            this.activity ? activities.start(this.task) : this.taskStart = new Date().valueOf()
+            activities.start(this.task)
+            this.taskStart = new Date().valueOf()
         },
     }"
     id="routine"
