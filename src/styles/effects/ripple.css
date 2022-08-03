@@ -1,5 +1,4 @@
-[ripple], nav > *, body > header, 
-button, input[type="submit"] {
+[ripple], [page], body > header, button, input[type="submit"], input[type="checkbox"] + label {
   overflow: hidden;
   position: relative;
   cursor: pointer;
@@ -12,7 +11,7 @@ button, input[type="submit"] {
       background: radial-gradient(
         circle,
         currentColor 10%,
-        #0000 calc(10% + 0.1px /* smooth out pixels */)
+        #0000 calc(10% + 1px /* smooth out pixels */)
       );
       transform: scale(0);
       pointer-events: none;

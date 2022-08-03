@@ -9,6 +9,9 @@ export default defineConfig({
       port: 3500,
       https: true
   },
+  preview: {
+    port: 5000,
+  },
   publicDir: './public',
   build: {
     target: 'es2021',

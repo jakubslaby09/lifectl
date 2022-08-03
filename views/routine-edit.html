@@ -21,16 +21,16 @@
     <div
         id="routine-fields"
     >
-        <h2 style="padding-top: 0;">
+        <h4 style="padding-top: 0;">
             <input x-model="routine.name" type="text" placeholder="Přidat název rutiny">
-        </h2>
+        </h4>
 
         <section icon="notes">
             <input x-model="routine.description" type="text" placeholder="Popis...">
         </section>
 
         <section icon="pending_actions">
-            <h4 style="margin-top: 0.8rem;">Úkoly a Aktivity</h4>
+            <h5 style="margin-top: 0.8rem;">Úkoly a Aktivity</h5>
             <p>Na každý řádek zadejte název úlohy, nebo aktivity</p>
 
             <textarea x-model="routine.tasks" media id="tasks"></textarea>

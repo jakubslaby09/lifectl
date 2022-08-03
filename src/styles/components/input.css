@@ -83,3 +83,121 @@ textfield {
         display: none;
     }
 }
+
+input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+
+    + label {
+        display: block;
+        padding: 1rem 0 1rem 0;
+        
+        overflow: clip;
+        user-select: none;
+    }
+    
+    &:not([switch]) + label::before {
+        content: "";
+        position: absolute;
+        right: 1rem;
+        width: 20px;
+        height: 20px;
+        border: var(--outline);
+        border-width: 2px;
+        border-radius: 2px;
+        color: var(--on-surface);
+        animation: checkbox-uncheck 0.2s cubic-bezier(0, 0.5, 0, 1);
+        z-index: 1;
+    }
+    
+    &:not([switch]):checked + label::before {
+        content: "checked";
+        color: var(--on-primary);
+        background-color: var(--primary);
+        border-color: var(--primary);
+        font-family: "Material Icons";
+        font-size: 20px;
+        animation: checkbox-check 0.3s cubic-bezier(0, 0, 0, 1) forwards;
+    }
+
+    &[switch] + label::before {
+        content: "";
+        position: absolute;
+        right: 0;
+        width: 52px;
+        height: 32px;
+        margin: -15.5px 0;
+        outline: var(--outline);
+        outline-width: 2px;
+        outline-offset: -2px;
+        border-radius: 16px;
+        background-color: var(--surface-variant);
+    }
+
+    &[switch]:checked + label::before {
+        background-color: var(--primary);
+        outline-color: var(--primary);
+    }
+    
+    &[switch] + label::after {
+        content: "";
+        position: absolute;
+        inset: auto 18px auto auto;
+        width: 16px;
+        height: 16px;
+        margin: -7.5px 0;
+        border-radius: 12px;
+        background: var(--outline-color);
+        transform: translateX(-10px);
+        animation: none;
+        opacity: unset;
+        transition: transform 0.2s cubic-bezier(0, 0, 0, 1);
+    }
+    
+    &[switch]:active + label::after {
+        transform: translateX(-10px) scale(1.75);
+    }
+    
+    &[switch]:checked + label:after {
+        color: var(--on-primary);
+        background-color: var(--on-primary);
+        transform: translateX(10px) scale(1.5);
+    }
+    
+    &[switch]:checked:active + label::after {
+        transform: translateX(10px) scale(1.75);
+    }
+}
+
+@keyframes checkbox-check {
+    from {
+        content: "";
+        clip-path: polygon(50% 100%, 0% 100%, 0% 0%, 100% 0%, 100% 100%, 50% 100%, 50% 90%, 90% 90%, 90% 10%, 10% 10%, 10% 90%, 50% 90%);
+    }
+    49% {
+        content: "";
+        clip-path: polygon(50% 100%, 0% 100%, 0% 0%, 100% 0%, 100% 100%, 50% 100%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%);
+    }
+    50% {
+        content: "";
+        clip-path: polygon(50% 50%, 50% 100%, 0% 100%, 0% 0%, 100% 0%, 100% 100%, 50% 100%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%);
+    }
+    60% {
+        content: "";
+        clip-path: polygon(40% 74%, 50% 100%, 0% 100%, 0% 0%, 100% 0%, 100% 100%, 50% 100%, 40% 74%, 44% 70%, 40% 65%, 40% 65%, 25% 50%, 20% 55%);
+    }
+    to {
+        content: "";
+        clip-path: polygon(40% 74%, 50% 100%, 0% 100%, 0% 0%, 100% 0%, 100% 100%, 50% 100%, 40% 74%, 82% 32%, 77% 27%, 40% 65%, 25% 50%, 20% 55%);
+    }
+}
+@keyframes checkbox-uncheck {
+    from {
+        background-color: var(--outline-color);
+        clip-path: polygon(50% 100%, 0% 100%, 0% 0%, 100% 0%, 100% 100%, 50% 100%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%);
+    }
+    to {
+        background-color: var(--outline-color);
+        clip-path: polygon(50% 100%, 0% 100%, 0% 0%, 100% 0%, 100% 100%, 50% 100%, 50% 90%, 90% 90%, 90% 10%, 10% 10%, 10% 90%, 50% 90%);
+    }
+}
