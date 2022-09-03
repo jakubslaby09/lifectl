@@ -6,6 +6,6 @@ interface Routine {
 
 Object.defineProperty(window, 'routines', {
     get: () => JSON.parse(
-        localStorage.getItem('routines') ?? '[]'
+        localStorage.getItem('routines') ?? '{}'
     ) as Routine[]
 })
