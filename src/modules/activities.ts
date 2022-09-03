@@ -5,6 +5,10 @@ const activities = {
         ) as Activities
     },
 
+    get empty() {
+        return Object.getOwnPropertyNames(this.all).length == 0
+    },
+
     get(name: string): Activity | undefined {
         return this.all[name]
     },
