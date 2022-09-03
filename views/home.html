@@ -1,6 +1,6 @@
-<h1>Rutiny</h1>
+<section x-show="Object.getOwnPropertyNames(routines).length" x-data>
+    <h1>Rutiny</h1>
 
-<section x-data="{  }">
     <template x-for="(routine, name) in routines">
         <card
             outlined
@@ -18,9 +18,9 @@
     </template>
 </section>
 
-<h1>Aktivity</h1>
+<section x-show="!activities.empty" x-data>
+    <h1>Aktivity</h1>
 
-<section x-data="{  }">
     <template x-for="(activity, name) in activities.all">
         <card
             outlined
@@ -52,6 +52,22 @@
             </div>
         </card>
     </template>
+</section>
+
+<section x-show="!Object.getOwnPropertyNames(routines).length && activities.empty">
+    <card
+        filled
+        style="position: absolute;
+        inset: 25% 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;"
+    >
+        <h5>
+            Nic tu není...<br>
+            Klikněte na <button icon tonal disabled>add</button> a vytvořte si novou aktivitu.
+        </h5>
+    </card>
 </section>
 
 <button fab large>add</button>

@@ -9,7 +9,7 @@
     save() {
         activities._set(this.name, {
             ...this.activity,
-            goal: parseInt(this.activity) ? parseInt(this.activity) : null
+            goal: parseInt(this.activity.goal) ? parseInt(this.activity.goal) : null
         })
 
         if(this.name != location.params['activity-edit'])
